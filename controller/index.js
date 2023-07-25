@@ -51,15 +51,15 @@ async function getAllQuestions(req, res){
     return res.json(allQuestion)
 }
 async function spectokenquestion(req, res){
-    const data = req.body
-    if (
-        !data.pairName
-    ){
-       return res.status(400).json({msg: "All fields required"})
+    var data = req.headers
+    console.log(req.headers["pairname"]) //here field name should be in small letters always
+    try{
+        const questions = await TokensQuestion.findOne({pairName: req.headers["pairname"]})
+        return res.json(questions)
     }
-    const questions = await TokensQuestion.find({pairName: data.pairName})
-    return res.json(questions)
-
+    catch(err){
+        return res.status(400).json({msg: err})
+    }
 }
 
 module.exports = { saveQuestions,getAllQuestions,spectokenquestion}

@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post("/tokenQuestions",saveQuestions )
 router.get("/getAllQuestion",getAllQuestions)
-router.get("/spectokenquestion", spectokenquestion)
+router.get("/spectokenquestion/", spectokenquestion)
 
 module.exports=router;
