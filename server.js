@@ -22,30 +22,22 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// endpoint for ChatGPT
-// async function callChatGPT(text){
-//   try{
-//     const completion = await openai.createCompletion({
-//       model: "text-davinci-003",
-//       max_tokens: 2048,
-//       temperature: 0,
-//       prompt: text,
-//     })
-//     console.log(completion.data.choices[0].text)
-//   }catch(e){
-//     console.log(e)
-//   }
-// }
-// callChatGPT("write an article about school")
-app.post("/chat", async (req, res) => {
+app.post("/chat/completions", async (req, res) => {
   const { prompt } = req.body;
-  const completion = await openai.createCompletion({
-    model: "text-davinci-003",
+  const completion = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",    //text-davinci-003
     max_tokens: 2048,
-    temperature: 0,
-    prompt: prompt,
-  });
-  res.send(completion.data.choices[0].text);
+    temperature: 1,
+    messages: [
+      {role:"user",content:prompt}
+    ],
+  }).then((completion)=>{
+    const txt = completion.data.choices[0].message.content
+    res.send(JSON.parse(txt));
+  }).catch((error)=>{
+    console.log(error)
+  })
+  
 });
 
 app.use("/api/questions", TokenQuestions)  //use this api when url is same as given here
