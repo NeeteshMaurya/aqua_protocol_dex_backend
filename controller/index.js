@@ -76,15 +76,33 @@ async function saveUser(req, res){
     if(!data || !data.pairName || !data.account){
         return res.status(400).json({msg: "All Field required"})
     }
-    const result = await Users.create({
-        account: data.account,
-        pairName: data.pairName,
-    })
-    return res.status(201).json({msg: "success"})
+    try{
+        const result = await Users.create({
+            account: data.account,
+            pairName: data.pairName,
+        })
+        return res.status(201).json({msg: "user details successfully saved"})
+    }catch(error){
+        return res.send(error.message);
+    }  
+}
+async function getUser(req, res){
+    var data = req.headers
+    try{
+        const user = await Users.findOne({pairName: req.headers["pairname"],account: req.headers["accounts"]})
+        return res.json(user)
+    }
+    catch(err){
+        return res.status(400).json({msg: err})
+    }
 }
 async function getAllUsers(req, res){
-    const allUsers = await Users.find({})
-    return res.json(allUsers)
+    try{
+        const usersDetail = await Users.find({})
+        return res.send(usersDetail)
+    }catch(err){
+        return res.status(400).json({msg: err})
+    }
 }
 
-module.exports = { saveQuestions,getAllQuestions,spectokenquestion,saveUser, getAllUsers}
+module.exports = { saveQuestions,getAllQuestions,spectokenquestion,saveUser, getUser,getAllUsers}
