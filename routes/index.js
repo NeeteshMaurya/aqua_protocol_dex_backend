@@ -11,4 +11,6 @@ router.post("/saveuser", saveUser)
 router.get('/getuser', getUser)
 router.get('/getalluser', getAllUsers)
 
+
+
 module.exports=router;

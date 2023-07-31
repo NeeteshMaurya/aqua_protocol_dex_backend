@@ -20,7 +20,9 @@ connectMongodb(process.env.MONGODB_URL).then(()=>console.log("mongodb connected"
 // Setup server
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://aqua-dex-six.vercel.app'
+}));
 
 app.post("/chat/completions", async (req, res) => {
   const { prompt } = req.body;
@@ -41,6 +43,7 @@ app.post("/chat/completions", async (req, res) => {
 });
 
 app.use("/api/questions", TokenQuestions)  //use this api when url is same as given here
+app.use("/", TokenQuestions)  
 
 // const PORT = 8080;
 
