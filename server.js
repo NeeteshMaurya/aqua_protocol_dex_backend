@@ -21,7 +21,7 @@ connectMongodb(process.env.MONGODB_URL).then(()=>console.log("mongodb connected"
 const app = express();
 app.use(bodyParser.json());
 app.use(cors({
-  // origin: 'https://aqua-dex-six.vercel.app'
+  origin: 'https://aqua-dex-six.vercel.app'
 }));
 
 app.post("/chat/completions", async (req, res) => {
