@@ -9,7 +9,7 @@ const {Configuration, OpenAIApi} = require("openai");
 
 dotenv.config()
 const config = new Configuration({
-    apiKey: `${process.env.API_KEY}` //"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" //"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",
+    apiKey: `${process.env.API_KEY}`
 })
  
 const openai = new OpenAIApi(config)
@@ -21,7 +21,7 @@ connectMongodb(process.env.MONGODB_URL).then(()=>console.log("mongodb connected"
 const app = express();
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'https://aqua-dex-six.vercel.app'
+  // origin: 'https://aqua-dex-six.vercel.app'
 }));
 
 app.post("/chat/completions", async (req, res) => {
@@ -37,13 +37,13 @@ app.post("/chat/completions", async (req, res) => {
     const txt = completion.data.choices[0].message.content
     res.send(JSON.parse(txt));
   }).catch((error)=>{
+    res.send(error)
     console.log(error)
   })
   
 });
 
-app.use("/api/questions", TokenQuestions)  //use this api when url is same as given here
-app.use("/", TokenQuestions)  
+app.use("/api/questions", TokenQuestions)  //use this api when url is same as given here 
 
 // const PORT = 8080;
 
